@@ -1,0 +1,84 @@
+name: Validate
+
+on:
+  pull_request:
+    branches:
+      - trunk
+      - master
+
+env:
+  TERRAFORM_DOCS_VERSION: v0.19.0
+  TFLINT_VERSION: v0.53.0
+
+jobs:
+  collect_inputs:
+    name: Collect Workflow Input
+    runs-on: ubuntu-latest
+    outputs:
+      directories: ${{ steps.dirs.outputs.directories }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Root
+        id: dirs
+        uses: clowdhause/terraform-composite-actions/directories@bv1.9.0
+
+  validate_min_versions:
+    name: Minimum TF Versions
+    needs: collect_inputs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: ${{ fromJson(needs.collect_inputs.outputs.directories) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate
+        id: versions
+        uses: clowdhaus/terraform-min-max@v1.3.1
+        with:
+          directory: ${{ matrix.directory }}
+
+      - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Modules
+        if: ${{ matrix.directory != '.' }}
+        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        with:
+          terraform-version: ${{ steps.versions.output.minVersion }}
+          tflint-version: ${{ env.TFLINT_VERSION }}
+          args: 'terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*'
+
+      - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Root
+        if: ${{ matrix.directory == '.' }}
+        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        with:
+          terraform-version: ${{ steps.versions.output.minVersion }}
+          tflint-version: ${{ env.TFLINT_VERSION }}
+          args: 'terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)'
+
+  validate_max_versions:
+    name: Maximum TF Versions
+    needs: collect_inputs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: '${{ github.event.pull_request.head.repo.full_name }}'
+
+      - name: Validate Max Version
+        id: versions
+        uses: clowdhaus/terraform-min-max@v1.3.1
+        with:
+          directory: ${{ matrix.directory }}
+
+      - name: Validate Terraform ${{ steps.versions.outputs.maxVersion }}
+        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        with:
+          terraform-version: ${{ steps.versions.output.maxVersion }}
+          tflint-version: ${{ env.TFLINT_VERSION }}
+          terraform-docs-version: ${{ env.TERRAFORM_DOCS_VERSION }}
+          install-hcledit: true
