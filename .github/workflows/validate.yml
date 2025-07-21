@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Get Root
         id: dirs
-        uses: clowdhause/terraform-composite-actions/directories@bv1.9.0
+        uses: clowdhause/terraform-composite-actions/directories@v1.9.0
 
   validate_min_versions:
     name: Minimum TF Versions
