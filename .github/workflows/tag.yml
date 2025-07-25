@@ -22,29 +22,17 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: last_tag
+      - id: semver-tag
+        uses: gandarez/semver-action@master
         with:
-          semver_only: true
-
-      - run: |
-          NEW_TAG_NAME=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/v//g')
-          echo "TAG_NAME: $NEW_TAG_NAME"
-          echo "TAG_NAME: $NEW_TAG_NAME" >> $GITHUB_OUTPUT
-          
-          NEW_LEVEL=$(echo ${{ steps.last_tag.outputs.level }})
-          echo "NEW_LEVEL: $NEW_LEVEL"
-          echo "TAG_LEVEL: $NEW_LEVEL" >> $GITHUB_OUTPUT
-
-      - uses: actions-ecosystem/action-bump-semver@v1
-        id: bump_semver
-        if: ${{ steps.release_label.outputs.level != null }}
-        with:
-          current_version: ${{ steps.last_tag.outputs.tag }}
-          level: ${{ steps.last_tag.outputs.level }}
+          branching_model: "trunk-based"
+          prefix: "v"
+          prerelease_id: "pre"
+          main_branch_name: "trunk"
+          develop_branch_name: "develop"
 
       - uses: actions-ecosystem/action-push-tag@v1
-        if: ${{ steps.last_tag.outputs.level != null }}
+        if: ${{ !steps.semver-tag.outputs.is_prerelease }}
         with:
-          tag: ${{ steps.bump_semver.outputs.new_version }}
-          message: '${{ steps.bump_semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+          tag: ${{ steps.semver-tag.outputs.semver_tag }}
+          message: '${{ steps.semver-tag.outputs.semver_tag }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
