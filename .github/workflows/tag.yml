@@ -30,18 +30,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
 
-      - run: |
-          echo "${{ steps.semver.outputs.next  }}"
-          echo "SEMVER_TAG=$(echo ${{ steps.semver.outputs.next  }})" >> $GITHUB_OUTPUT 
-
       - name: Generate CHANGELOG
         id: changelog
         uses: requarks/changelog-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fromTag: ${{ github.event.workflow_run.head_sha }}
-          toTag: ${{ steps.semver.outputs.current }}
-          writeToFile: false
+          fromTag: ${{ steps.semver.outputs.current }}
+          toTag: ${{ steps.semver.outputs.next }}
+          writeToFile: true
 
       - name: Create Release
         uses: ncipollo/release-action@v1.13.0
@@ -50,7 +46,7 @@ jobs:
           draft: false
           makeLatest: true
           tag: ${{ steps.semver.outputs.next }}
-          commit: ${{ github.event.workflow_run.head_sha }}
+          commit: ${{ github.event.workflow_run.head_sha || 'trunk' }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
