@@ -52,13 +52,14 @@ jobs:
           fromTag: ${{ steps.semver.outputs.next }}
           toTag: ${{ steps.semver.outputs.current }}
           writeToFile: true
+          excludeTypes: 'build,docs'
 
       - name: Commit CHANGELOG.md
         id: commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
+          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }}'
           file_pattern: CHANGELOG.md
 
       - name: Create Release
@@ -68,6 +69,6 @@ jobs:
           draft: false
           makeLatest: true
           tag: ${{ steps.semver.outputs.next }}
-          commit: ${{ github.event.workflow_run.head_sha || 'trunk' }}
+          commit: ${{ steps.commit.outputs.commit_hash || 'trunk' }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
