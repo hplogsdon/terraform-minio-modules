@@ -29,9 +29,12 @@ jobs:
 
       - run: |
           NEW_TAG_NAME=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/v//g')
+          echo "TAG_NAME: $NEW_TAG_NAME"
+          echo "TAG_NAME: $NEW_TAG_NAME" >> $GITHUB_OUTPUT
+          
           NEW_LEVEL=$(echo ${{ steps.last_tag.outputs.level }})
-          echo $NEW_TAG_NAME
-          echo $NEW_LEVEL
+          echo "NEW_LEVEL: $NEW_LEVEL"
+          echo "TAG_LEVEL: $NEW_LEVEL" >> $GITHUB_OUTPUT
 
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump_semver
