@@ -18,16 +18,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Get Latest Tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: last_tag
+
+      - name: Bump Semver
+        uses: actions-ecosystem/action-bump-semver@v1
+        id: bump_semver
+        if: ${{ steps.last_tag.outputs.level != null }}
         with:
-          persist-credentials: false
-          fetch-depth: 1
-      - name: Release
-        uses: cycjimmy/semantic-release-action@v4
+          current_version: ${{ steps.last_tag.outputs.tag }}
+          level: ${{ steps.last_tag.outputs.level }}
+
+      - name: Push Tag
+        uses: actions-ecosystem/action-push-tag@v1
+        if: ${{ steps.last_tag.outputs.level != null }}
         with:
-          semantic_version: 23.0.2
-          extra_plugins: |
-            @semantic-release/changelog@6.0.3
-            @semantic-release/git@10.0.1
-            conventional-changelog-conventionalcommits@7.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.SEMANTIC_GITHUB_TOKEN }}
+          tag: ${{ steps.bump_semver.outputs.new_version }}
+          message: '${{ steps.bump_semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+
+      - name: gh:;release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.bump_semver.outputs.new_version }}
