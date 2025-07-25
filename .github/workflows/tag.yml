@@ -28,8 +28,7 @@ jobs:
         uses: ietf-tools/semver-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.event.workflow_run.head_sha }}
-
+          branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
 
       - run: |
           echo "${{ steps.semver.outputs.next  }}"
