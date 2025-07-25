@@ -37,8 +37,8 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fromTag: ${{ steps.semver.outputs.next }}
-          toTag: trunk
+          fromTag: 'trunk'
+          toTag: ${{ steps.semver.outputs.current }}
           writeToFile: true
           excludeTypes: 'build,docs'
 
