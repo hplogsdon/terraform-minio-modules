@@ -5,6 +5,9 @@ on:
     branches:
       - trunk
       - master
+    paths:
+      - "**/*.tf"
+      - ".github/workflows/validate.yml"
 
 env:
   TERRAFORM_DOCS_VERSION: v0.19.0
