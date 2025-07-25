@@ -38,7 +38,7 @@ jobs:
           tag: ${{ steps.bump_semver.outputs.new_version }}
           message: '${{ steps.bump_semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
-      - name: gh:;release
+      - name: gh::release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.bump_semver.outputs.new_version }}

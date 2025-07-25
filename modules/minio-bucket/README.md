@@ -24,7 +24,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [minio_s3_bucket.s3_bucket](https://registry.terraform.io/providers/aminueza/minio/latest/docs/resources/s3_bucket) | resource |
+| [minio_s3_bucket.this](https://registry.terraform.io/providers/aminueza/minio/latest/docs/resources/s3_bucket) | resource |
+| [minio_s3_bucket_versioning.this](https://registry.terraform.io/providers/aminueza/minio/latest/docs/resources/s3_bucket_versioning) | resource |
 
 ## Inputs
 
