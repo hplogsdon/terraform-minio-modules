@@ -1,5 +1,5 @@
 variable "name" {
-  type = string
+  type        = string
   description = "Name of the bucket to be created"
 }
 
@@ -8,12 +8,12 @@ variable "bucket_acl" {
 }
 
 variable "object_locking" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "object_versioning" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -23,6 +23,6 @@ variable "policy" {
 
 variable "tags" {
   description = "A map of additional tags to add to the bucket and resources"
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
