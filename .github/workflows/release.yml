@@ -2,12 +2,8 @@ name: Release
 
 on:
   push:
-    branches:
-      - trunk
-      - master
-    paths:
-      - "**/*.tf"
-      - ".github/workflows/*"
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
 
 permissions:
   contents: write
@@ -15,7 +11,7 @@ permissions:
   repository-projects: write
 
 jobs:
-  tag_and_release:
+  release:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'hplogsdon'
     steps:
@@ -24,23 +20,25 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: '0'
 
-      - name: Bump Version number
-        id: semver
-        uses: ietf-tools/semver-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          noVersionBumpBehavior: 'patch'
-          branch: ${{ github.ref_name }}
-
       - name: Generate CHANGELOG
         id: changelog
         uses: requarks/changelog-action@v1
         with:
-          tag: ${{ steps.semver.outputs.next }}
+          tag: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           writeToFile: true
           excludeTypes: 'build,docs,style'
           useGitmojis: false
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit CHANGELOG.md
         id: commit
@@ -49,16 +47,3 @@ jobs:
           branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
           commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }}'
           file_pattern: CHANGELOG.md
-          tagging_message: '${{ steps.semver.outputs.next }}'
-          create_git_tag_only: false
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1.13.0
-        with:
-          allowUpdates: true
-          draft: false
-          makeLatest: true
-          tag: ${{ steps.semver.outputs.next }}
-          commit: ${{ steps.commit.outputs.commit_hash || 'trunk' }}
-          body: ${{ steps.changelog.outputs.changes }}
-          token: ${{ secrets.GITHUB_TOKEN }}
