@@ -16,7 +16,7 @@ permissions:
   repository-projects: write
 
 jobs:
-  tag_and_release:
+  build:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'hplogsdon'
     steps:
@@ -42,5 +42,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/${{ steps.semver.outputs.next }}",
-              sha: ${{ steps.commit.outputs.commit_hash }}
+              sha: "${{ github.sha }}"
             })
