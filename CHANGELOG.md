@@ -1,6 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v0.1.4] - 2025-07-25
+### Chores
+- [`b793f17`](https://github.com/hplogsdon/terraform-minio-modules/commit/b793f175030e6d4757838e67be18a6f7c0382303) - create tag after commit *(commit by [@uxp](https://github.com/uxp))*
+- [`a8819ee`](https://github.com/hplogsdon/terraform-minio-modules/commit/a8819ee7929c960812dc969f32cde48173e28588) - try this *(commit by [@uxp](https://github.com/uxp))*
+- [`5375db8`](https://github.com/hplogsdon/terraform-minio-modules/commit/5375db87537794bd23919d9846ed41df84f396d2) - reverse tags *(commit by [@uxp](https://github.com/uxp))*
+- [`5049d95`](https://github.com/hplogsdon/terraform-minio-modules/commit/5049d95354db4453b2acb9935bcdbdb1efbf3120) - merge tag and commit action steps *(commit by [@uxp](https://github.com/uxp))*
+
+
 ## [trunk] - 2025-07-25
 ### :wrench: Chores
 - [`b793f17`](https://github.com/hplogsdon/terraform-minio-modules/commit/b793f175030e6d4757838e67be18a6f7c0382303) - create tag after commit *(commit by [@uxp](https://github.com/uxp))*
@@ -26,3 +34,4 @@ All notable changes to this project will be documented in this file.
 [v0.1.2]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.1...v0.1.2
 [v0.1.3]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.2...v0.1.3
 [trunk]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...trunk
+[v0.1.4]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...v0.1.4
