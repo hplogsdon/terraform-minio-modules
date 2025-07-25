@@ -23,8 +23,8 @@ jobs:
         id: dirs
         uses: clowdhaus/terraform-composite-actions/directories@v1.9.0
 
-  validate_min_versions:
-    name: Minimum TF Versions
+  get_versions:
+    name: Extract Terraform Min/Max Versions
     needs: collect_inputs
     runs-on: ubuntu-latest
     strategy:
@@ -35,31 +35,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate
-        id: versions
+      - name: Get Terraform Min/Max Versions
+        id: minMax
         uses: clowdhaus/terraform-min-max@v1.3.1
         with:
           directory: ${{ matrix.directory }}
 
-      - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Modules
+  validate_min_versions:
+    name: Minimum TF Versions
+    needs: get_versions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: ${{ fromJson(needs.collect_inputs.outputs.directories) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Terraform ${{ needs.get_versions.outputs.minVersion }} Modules
         if: ${{ matrix.directory != '.' }}
         uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
-          terraform-version: ${{ steps.versions.output.minVersion }}
+          terraform-version: ${{ needs.get_versions.outputs.minVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
           args: 'terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*'
 
-      - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Root
+      - name: Validate Terraform ${{ needs.get_versions.outputs.minVersion }} Root
         if: ${{ matrix.directory == '.' }}
         uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
-          terraform-version: ${{ steps.versions.output.minVersion }}
+          terraform-version: ${{ needs.get_versions.outputs.minVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
           args: 'terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)'
 
   validate_max_versions:
     name: Maximum TF Versions
-    needs: collect_inputs
+    needs: get_versions
     runs-on: ubuntu-latest
 
     steps:
@@ -69,16 +81,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: '${{ github.event.pull_request.head.repo.full_name }}'
 
-      - name: Validate Max Version
-        id: versions
-        uses: clowdhaus/terraform-min-max@v1.3.1
-        with:
-          directory: ${{ matrix.directory }}
-
-      - name: Validate Terraform ${{ steps.versions.outputs.maxVersion }}
+      - name: Validate Terraform ${{ needs.get_versions.outputs.maxVersion }}
         uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
-          terraform-version: ${{ steps.versions.output.maxVersion }}
+          terraform-version: ${{ needs.get_versions.outputs.maxVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
           terraform-docs-version: ${{ env.TERRAFORM_DOCS_VERSION }}
           install-hcledit: true
