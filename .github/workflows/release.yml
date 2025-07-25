@@ -30,17 +30,18 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           noVersionBumpBehavior: 'patch'
-          branch: 'trunk'
+          branch: ${{ github.ref_name }}
 
       - name: Generate CHANGELOG
         id: changelog
         uses: requarks/changelog-action@v1
         with:
+          tag: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          fromTag: 'trunk'
           toTag: ${{ steps.semver.outputs.current }}
           writeToFile: true
-          excludeTypes: 'build,docs'
+          excludeTypes: 'build,docs,style'
+          useGitmojis: false
 
       - name: Commit CHANGELOG.md
         id: commit
