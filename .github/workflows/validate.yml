@@ -6,6 +6,10 @@ on:
       - trunk
       - master
 
+permissions:
+  pull-requests: write
+  contents: write
+
 env:
   TERRAFORM_DOCS_VERSION: v0.19.0
   TFLINT_VERSION: v0.53.0
@@ -20,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get Root
+      - name: Get Module Directories
         id: dirs
         uses: clowdhaus/terraform-composite-actions/directories@v1.9.0
 
@@ -56,7 +60,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ${{ matrix.module }}
+        working-directory: ${{ matrix.directory }}
 
     steps:
       - name: Checkout
