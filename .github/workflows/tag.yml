@@ -26,18 +26,19 @@ jobs:
       - id: semver
         uses: ietf-tools/semver-action@v1
         with:
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.event.workflow_run.head_sha }}
 
+
       - run: |
-          echo "${{ steps.semver.outputs.next }}"
-          echo "SEMVER_TAG=$(echo ${{ steps.semver.outputs.next }})" >> $GITHUB_OUTPUT 
+          echo "${{ steps.semver.outputs.next  }}"
+          echo "SEMVER_TAG=$(echo ${{ steps.semver.outputs.next  }})" >> $GITHUB_OUTPUT 
 
       - name: Generate CHANGELOG
         id: changelog
         uses: requarks/changelog-action@v1
         with:
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fromTag: ${{ github.event.workflow_run.head_sha }}
           toTag: ${{ steps.semver.outputs.current }}
           writeToFile: false
@@ -51,12 +52,12 @@ jobs:
           tag: ${{ steps.semver.outputs.next }}
           commit: ${{ github.event.workflow_run.head_sha }}
           body: ${{ steps.changelog.outputs.changes }}
-          token: ${{ env.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
 #      - name: Create tag
 #        uses: actions/github-script@v7
 #        with:
-#          github-token: ${{ env.GITHUB_TOKEN }}
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
 #          script: |
 #            github.rest.git.createRef({
 #              owner: context.repo.owner,
