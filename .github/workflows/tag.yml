@@ -1,4 +1,4 @@
-name: Release
+name: Tag
 
 on:
   push:
@@ -10,8 +10,7 @@ on:
       - ".github/workflows/*"
 
 jobs:
-  release:
-    name: Release
+  tag:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'hplogsdon'
     permissions:
