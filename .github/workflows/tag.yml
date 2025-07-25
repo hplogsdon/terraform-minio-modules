@@ -9,14 +9,15 @@ on:
       - "**/*.tf"
       - ".github/workflows/*"
 
+permissions:
+  contents: read
+  pull-requests: write
+  repository-projects: write
+
 jobs:
   tag:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'hplogsdon'
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
     steps:
       - uses: actions/checkout@v4
         with:
