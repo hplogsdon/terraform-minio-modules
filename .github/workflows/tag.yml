@@ -25,14 +25,31 @@ jobs:
       - id: semver-tag
         uses: gandarez/semver-action@master
         with:
+          debug: true
           branching_model: "trunk-based"
           prefix: "v"
           prerelease_id: "pre"
           main_branch_name: "trunk"
           develop_branch_name: "develop"
 
+      - run: |
+          echo "${{ steps.semver-tag.outputs.semver_tag }}"
+          echo "SEMVER_TAG=$(echo ${{ steps.semver-tag.outputs.semver_tag }})" >> $GITHUB_OUTPUT 
+
       - uses: actions-ecosystem/action-push-tag@v1
         if: ${{ !steps.semver-tag.outputs.is_prerelease }}
         with:
           tag: ${{ steps.semver-tag.outputs.semver_tag }}
           message: '${{ steps.semver-tag.outputs.semver_tag }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+
+#      - name: Create tag
+#        uses: actions/github-script@v7
+#        with:
+#          github-token: ${{ env.GITHUB_TOKEN }}
+#          script: |
+#            github.rest.git.createRef({
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              ref: "refs/tags/${{ steps.format.outputs.semver }}",
+#              sha: context.sha
+#            })
