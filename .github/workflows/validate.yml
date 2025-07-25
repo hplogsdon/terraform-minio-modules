@@ -43,7 +43,7 @@ jobs:
 
       - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Modules
         if: ${{ matrix.directory != '.' }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
           terraform-version: ${{ steps.versions.output.minVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
@@ -51,7 +51,7 @@ jobs:
 
       - name: Validate Terraform ${{ steps.versions.outputs.minVersion }} Root
         if: ${{ matrix.directory == '.' }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
           terraform-version: ${{ steps.versions.output.minVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
@@ -76,7 +76,7 @@ jobs:
           directory: ${{ matrix.directory }}
 
       - name: Validate Terraform ${{ steps.versions.outputs.maxVersion }}
-        uses: clowdhaus/terraform-composite-actions/pre-commit@1.11.1
+        uses: clowdhaus/terraform-composite-actions/pre-commit@v1.11.1
         with:
           terraform-version: ${{ steps.versions.output.maxVersion }}
           tflint-version: ${{ env.TFLINT_VERSION }}
