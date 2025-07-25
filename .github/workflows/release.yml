@@ -1,14 +1,9 @@
 name: Release
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - trunk
-      - master
-    paths:
-      - '.github/workflows/release.yml'
-      - '**/*.tf'
+  pull_request:
+    types:
+      - closed
 
 jobs:
   release:
@@ -18,15 +13,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+
+      - name: Get PR label
+        uses: actions-ecosystem/action-release-label@v1
+        id: release_label
+        if: ${{ github.event.pull_request.merged == true }}
 
       - name: Get Latest Tag
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: last_tag
+        if: ${{ steps.release_label.outputs.level != null }}
+        with:
+          semver_only: true
 
       - name: Bump Semver
         uses: actions-ecosystem/action-bump-semver@v1
         id: bump_semver
-        if: ${{ steps.last_tag.outputs.level != null }}
+        if: ${{ steps.release_label.outputs.level != null }}
         with:
           current_version: ${{ steps.last_tag.outputs.tag }}
           level: ${{ steps.last_tag.outputs.level }}
