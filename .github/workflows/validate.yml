@@ -15,7 +15,6 @@ env:
 
 jobs:
   collect_inputs:
-    name: Collect Workflow Input
     runs-on: ubuntu-latest
     outputs:
       directories: ${{ steps.dirs.outputs.directories }}
