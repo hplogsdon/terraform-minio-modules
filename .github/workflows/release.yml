@@ -26,14 +26,12 @@ jobs:
 
       - name: Get and check latest tag
         run: |
-          LATEST_COMMIT=$(git rev-parse HEAD)
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
-          if [ "$LATEST_COMMIT" != "$TAG_COMMIT" ]; then
+          if [ "${{ github.ref }}" != "$TAG_COMMIT" ]; then
             echo "Commits found between HEAD and latest tag. Exiting..."
             exit 1
           fi
-          echo "LATEST_COMMIT=$LATEST_COMMIT" >> $GITHUB_ENV
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Generate CHANGELOG
@@ -52,7 +50,7 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          commit: ${{ env.LATEST_COMMIT }}
+          commit: ${{ github.ref }}
           name: ${{ env.LATEST_TAG }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
