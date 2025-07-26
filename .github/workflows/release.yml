@@ -24,8 +24,15 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: '0'
 
-      - run: |
+      - name: Get and check latest tag
+        run: |
+          LATEST_COMMIT=$(git rev-parse HEAD)
           LATEST_TAG=$(git describe --abbrev=0)
+          TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
+          if [ "$LATEST_COMMIT" != "$TAG_COMMIT" ]; then
+            echo "Commits found between latest tag and HEAD. Exiting..."
+            exit 1
+          fi
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Generate CHANGELOG
@@ -44,7 +51,7 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          name: ${{ github.ref_name }}
+          name: ${{ env.LATEST_TAG }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -53,5 +60,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }}'
+          commit_message: 'docs: update CHANGELOG.md for ${{ env.LATEST_TAG }}'
           file_pattern: CHANGELOG.md
