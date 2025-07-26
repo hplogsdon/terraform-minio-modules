@@ -30,7 +30,7 @@ jobs:
           LATEST_TAG=$(git describe --abbrev=0)
           TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
           if [ "$LATEST_COMMIT" != "$TAG_COMMIT" ]; then
-            echo "Commits found between latest tag and HEAD. Exiting..."
+            echo "Commits found between HEAD: $LATEST_COMMIT and tag: $TAG_COMMIT. Exiting..."
             exit 1
           fi
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
