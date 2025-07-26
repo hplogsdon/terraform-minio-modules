@@ -21,14 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.ref_name || 'trunk' }}
           fetch-depth: '0'
 
       - name: Get and check latest tag
         run: |
           LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
           TAG_COMMIT=$(git rev-list -n 1 $LATEST_TAG)
-          if [ "${{ github.ref }}" != "$TAG_COMMIT" ]; then
+          LATEST_SHA=$(git rev-parse HEAD)
+          if [ "$LATEST_SHA" != "$TAG_COMMIT" ]; then
             echo "Commits found between HEAD and latest tag. Exiting..."
             exit 1
           fi
@@ -50,7 +51,6 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          commit: ${{ github.ref }}
           name: ${{ env.LATEST_TAG }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
