@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v0.1.14] - 2025-07-26
+### Bug Fixes
+- [`c82eb5c`](https://github.com/hplogsdon/terraform-minio-modules/commit/c82eb5cc9e2c90caf0c650c5e6692a62ff538fd1) - nothing *(commit by [@uxp](https://github.com/uxp))*
+
+
 ## [v0.1.4] - 2025-07-25
 ### Chores
 - [`b793f17`](https://github.com/hplogsdon/terraform-minio-modules/commit/b793f175030e6d4757838e67be18a6f7c0382303) - create tag after commit *(commit by [@uxp](https://github.com/uxp))*
@@ -35,3 +40,4 @@ All notable changes to this project will be documented in this file.
 [v0.1.3]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.2...v0.1.3
 [trunk]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...trunk
 [v0.1.4]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...v0.1.4
+[v0.1.14]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.13...v0.1.14
