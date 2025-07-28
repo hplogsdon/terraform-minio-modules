@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v0.1.28] - 2025-07-28
+### Bug Fixes
+- [`9c7080f`](https://github.com/hplogsdon/terraform-minio-modules/commit/9c7080fc7fee16e89d6ca0566555f48a6b56b672) - always commit changelog to trunk *(commit by [@uxp](https://github.com/uxp))*
+
+
 ## [v0.1.14] - 2025-07-26
 ### Bug Fixes
 - [`c82eb5c`](https://github.com/hplogsdon/terraform-minio-modules/commit/c82eb5cc9e2c90caf0c650c5e6692a62ff538fd1) - nothing *(commit by [@uxp](https://github.com/uxp))*
@@ -41,3 +46,4 @@ All notable changes to this project will be documented in this file.
 [trunk]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...trunk
 [v0.1.4]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.3...v0.1.4
 [v0.1.14]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.13...v0.1.14
+[v0.1.28]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.27...v0.1.28
