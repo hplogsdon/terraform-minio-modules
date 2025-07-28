@@ -60,6 +60,6 @@ jobs:
         id: commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: ${{ github.event.workflow_run.head_sha || 'trunk' }}
+          branch: 'trunk'
           commit_message: 'docs: update CHANGELOG.md for ${{ env.LATEST_TAG }}'
           file_pattern: CHANGELOG.md
