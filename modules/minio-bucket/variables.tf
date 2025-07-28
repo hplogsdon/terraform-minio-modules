@@ -2,7 +2,7 @@ variable "name" {
   type        = string
   description = "Name of the bucket to be created"
   validation {
-    condition     = len(var.name) > 2 && len(var.name) < 64
+    condition     = length(var.name) > 2 && length(var.name) < 64
     error_message = "Name must be at least 3 characters and at most 63 characters long."
   }
 }
