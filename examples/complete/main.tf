@@ -23,9 +23,9 @@ module "my_bucket" {
 
 data "minio_iam_policy_document" "authenticated_read_policy" {
   statement {
-    sid = "AuthenticatedReadBucketPolicy"
-    effect = "Allow"
-    actions   = [
+    sid     = "AuthenticatedReadBucketPolicy"
+    effect  = "Allow"
+    actions = [
       "s3:GetBucketLocation",
       "s3:ListBucket",
     ]
@@ -35,8 +35,8 @@ data "minio_iam_policy_document" "authenticated_read_policy" {
     ]
   }
   statement {
-    sid = "AuthenticatedReadObjectPolicy"
-    effect = "Allow"
+    sid     = "AuthenticatedReadObjectPolicy"
+    effect  = "Allow"
     actions = [
       "s3:GetObject"
     ]
