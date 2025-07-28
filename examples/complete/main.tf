@@ -11,7 +11,7 @@ module "my_bucket" {
   object_locking    = true
 
   # Whether Object Versioning is enabled.
-  object_versioning = false
+  object_versioning = true
 
   # The policy to apply to the bucket.
   policy            = data.minio_iam_policy_document.authenticated_read_policy.json
