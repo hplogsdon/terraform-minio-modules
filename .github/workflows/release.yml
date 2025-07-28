@@ -53,6 +53,7 @@ jobs:
           draft: false
           makeLatest: true
           name: ${{ env.LATEST_TAG }}
+          tag: ${{ env.LATEST_TAG }}
           commit: ${{ env.TAG_COMMIT }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.GITHUB_TOKEN }}
