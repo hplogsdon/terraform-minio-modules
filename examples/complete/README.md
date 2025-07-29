@@ -32,6 +32,7 @@ Note that this example may create resources which can cost money. Run `terraform
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_admin_group"></a> [admin\_group](#module\_admin\_group) | ../../modules/group-policy | n/a |
 | <a name="module_my_bucket"></a> [my\_bucket](#module\_my\_bucket) | ../../modules/minio-bucket | n/a |
 
 ## Resources
