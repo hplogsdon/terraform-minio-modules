@@ -1,6 +1,6 @@
 # minio-bucket
 
-Creates MinIO bucket.
+Creates a MinIO bucket.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
