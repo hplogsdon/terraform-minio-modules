@@ -9,7 +9,6 @@ data "minio_iam_policy_document" "this" {
       ]
     ])
     actions = [
-      "S3:GetEncryptionConfiguration",
       "s3:GetBucketLocation",
       "s3:GetObject",
       "s3:ListBucket"
@@ -47,9 +46,9 @@ resource "minio_iam_group" "this" {
 }
 
 resource "minio_iam_group_policy" "this" {
-  name   = "${var.name}_specific_policy"
-  group  = minio_iam_group.this.id
-  policy = data.minio_iam_policy_document.this.json
+  name_prefix = "${var.name}-"
+  group       = minio_iam_group.this.id
+  policy      = data.minio_iam_policy_document.this.json
 }
 
 resource "minio_iam_group_policy_attachment" "this" {

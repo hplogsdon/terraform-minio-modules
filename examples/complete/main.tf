@@ -26,8 +26,8 @@ data "minio_iam_policy_document" "authenticated_read_policy" {
     sid    = "AuthenticatedReadBucketPolicy"
     effect = "Allow"
     actions = [
-      "s3:GetBucketLocation",
       "s3:ListBucket",
+      "s3:GetBucketLocation",
     ]
     principal = "*"
     resources = [
@@ -62,7 +62,7 @@ module "admin_group" {
   # Any custom policy statements for the group
   additional_policies = [
     {
-      sid       = "ITAdmin-CustomPolicy-Objects"
+      sid       = "ITAdmin-CustomPolicyObjects"
       effect    = "Allow"
       resources = ["arn:aws:s3:::*/*"]
       actions = [

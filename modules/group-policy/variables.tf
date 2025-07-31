@@ -16,11 +16,12 @@ variable "readwrite" {
 }
 
 variable "additional_policies" {
-  type = optional(list(object({
+  type = list(object({
     sid       = string
     effect    = string
     resources = list(string)
     actions   = list(string)
-  })))
+  }))
   description = "Custom policy statements for the group"
+  default     = []
 }
