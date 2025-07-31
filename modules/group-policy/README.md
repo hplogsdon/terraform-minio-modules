@@ -33,7 +33,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_policies"></a> [additional\_policies](#input\_additional\_policies) | Custom policy statements for the group | <pre>optional(list(object({<br/>    sid       = string<br/>    effect    = string<br/>    resources = list(string)<br/>    actions   = list(string)<br/>  })))</pre> | n/a | yes |
+| <a name="input_additional_policies"></a> [additional\_policies](#input\_additional\_policies) | Custom policy statements for the group | <pre>list(object({<br/>    sid       = string<br/>    effect    = string<br/>    resources = list(string)<br/>    actions   = list(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the OIDC group | `string` | n/a | yes |
 | <a name="input_readonly"></a> [readonly](#input\_readonly) | List of buckets the group should have read permissions on | `list(string)` | `[]` | no |
 | <a name="input_readwrite"></a> [readwrite](#input\_readwrite) | List of buckets the group should have read & write permissions on | `list(string)` | `[]` | no |
