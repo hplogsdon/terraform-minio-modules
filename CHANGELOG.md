@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v0.1.31] - 2025-07-31
+### Chores
+- [`57e1163`](https://github.com/hplogsdon/terraform-minio-modules/commit/57e1163c154a7b41ea8052632664aded6b6ba53d) - (modules/group-policy) provide empty default group policy. *(commit by [@uxp](https://github.com/uxp))*
+
+
 ## [v0.1.30] - 2025-07-29
 ### Bug Fixes
 - [`7e03630`](https://github.com/hplogsdon/terraform-minio-modules/commit/7e03630a52ff8e27456ff97cab3247705b768016) - compose syntax issues *(commit by [@uxp](https://github.com/uxp))*
@@ -57,3 +62,4 @@ All notable changes to this project will be documented in this file.
 [v0.1.14]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.13...v0.1.14
 [v0.1.28]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.27...v0.1.28
 [v0.1.30]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.29...v0.1.30
+[v0.1.31]: https://github.com/hplogsdon/terraform-minio-modules/compare/v0.1.30...v0.1.31
