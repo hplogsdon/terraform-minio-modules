@@ -1,6 +1,6 @@
 # minio-bucket
 
-Creates MinIO bucket.
+Creates a MinIO bucket.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -37,7 +37,7 @@ No modules.
 | <a name="input_object_locking"></a> [object\_locking](#input\_object\_locking) | Enable object locking for the bucket (default: false).<br/>This must be enabled for replication. | `bool` | `false` | no |
 | <a name="input_object_versioning"></a> [object\_versioning](#input\_object\_versioning) | Enable global object versioning on the entire bucket (default: false).<br/>For more complex versioning requirements, use `minio_s3_bucket_versioning` directly. | `bool` | `false` | no |
 | <a name="input_policy"></a> [policy](#input\_policy) | Policy JSON document to apply to the bucket. Can be a HERE-DOC object, or a `minio_iam_policy_document` data source | `string` | `""` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the bucket and resources | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the bucket and resources. Unused, unfortunately | `map(string)` | `{}` | no |
 
 ## Outputs
 

@@ -35,7 +35,7 @@ variable "policy" {
 }
 
 variable "tags" {
-  description = "A map of additional tags to add to the bucket and resources"
+  description = "A map of additional tags to add to the bucket and resources. Unused, unfortunately"
   type        = map(string)
   default     = {}
 }
