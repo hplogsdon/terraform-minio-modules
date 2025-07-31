@@ -1,6 +1,9 @@
 # MinIO Terraform modules
 
-Terraform module which creates MinIO resources with better defaults
+Terraform module which creates MinIO resources with better defaults. This repo largely exists as demonstration of how I build and structure Terraform and OpenTofu modules for internal consumption. 
+
+> [!WARNING]  
+> This module may not be compatible with the AIStor update [`RELEASE.2025-05-24T17-08-30Z`](https://github.com/minio/minio/tree/RELEASE.2025-05-24T17-08-30Z).
 
 ## Usage
 
